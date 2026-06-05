@@ -106,6 +106,7 @@ This script analyzes revenue trends over time, including:
 - Monthly revenue
 - Month-over-month revenue growth
 - Monthly revenue ranking
+-- Monthly Revenue Trend and Month over Month Growth
 
 This script uses window functions such as `lag()` and `rank()`.
 
