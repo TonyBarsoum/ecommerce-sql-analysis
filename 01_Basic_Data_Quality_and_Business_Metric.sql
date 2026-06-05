@@ -15,7 +15,7 @@ from orders;
 
 -- 3. Total Revnue Generated
 select  
-	sum(payment_value) as total_revnue
+	sum(payment_value) as total_revenue
 from payments;
 
 -- 4. Total Number of Items Sold
