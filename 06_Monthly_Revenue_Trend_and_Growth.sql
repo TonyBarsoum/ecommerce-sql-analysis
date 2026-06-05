@@ -52,3 +52,37 @@ select
 	order by revenue
 	) as lowest_revenue_rank
 from monthly_revnue;
+
+-- 4.  Monthly Revenue Trend and Month over Month Growth
+with monthly_revenue as (
+    select
+        date_trunc('month', o.order_purchase_timestamp) as revenue_month,
+        sum(i.price) as monthly_revenue
+    from orders o
+    join orderitems i
+        on o.order_id = i.order_id
+    group by revenue_month
+),
+monthly_revenue_with_lag as (
+    select
+        revenue_month,
+        monthly_revenue,
+        lag(monthly_revenue) over (
+            order by revenue_month
+        ) as previous_month_revenue
+    from monthly_revenue
+)
+select
+    revenue_month,
+    monthly_revenue,
+    previous_month_revenue,
+    monthly_revenue - previous_month_revenue as revenue_change,
+    round(
+        100.0 * (monthly_revenue - previous_month_revenue)
+        / previous_month_revenue,
+        2
+    ) as revenue_growth_percentage
+from monthly_revenue_with_lag
+order by revenue_month;
+
+
