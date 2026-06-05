@@ -41,7 +41,6 @@ select
 from status_per_month;
 
 -- 3. Months with Highest Cancellation Rates
-
 with status_highest_month as(
     select
         date_trunc('month', order_purchase_timestamp) as months,
