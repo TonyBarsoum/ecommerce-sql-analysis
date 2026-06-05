@@ -22,7 +22,7 @@ with cancel_orders as (
 	from orders
 )
 select 
-	round (100.0 * canceled_orders / total_orders, 2) as cancelation_rate_percent
+	round (100.0 * canceled_orders / total_orders, 2) as cancellation_rate_percent
 from cancel_orders, total_orders;
 
 
