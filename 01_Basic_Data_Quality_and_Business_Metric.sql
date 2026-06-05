@@ -20,7 +20,7 @@ from payments;
 
 -- 4. Total Number of Items Sold
 select 
-	count(*) as total_ordered_Items
+	count(*) as total_ordered_items
 from orderitems;
 
 -- 5. Average Order Value
