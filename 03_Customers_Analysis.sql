@@ -26,15 +26,41 @@ group by customer_city
 order by total_customers desc
 limit 10;
 
--- 4. Total Orders by Customer State
+-- 4. Finds the highest revenue product category for each customer state
+with state_category_revenue as (
+    select
+        c.customer_state,
+        p.product_category_name,
+        sum(i.price) as category_revenue
+    from customers c
+    join orders o
+        on c.customer_id = o.customer_id
+    join orderitems i
+        on o.order_id = i.order_id
+    join products_clean p
+        on i.product_id = p.product_id
+    group by
+        c.customer_state,
+        p.product_category_name
+), ranked_categories as (
+    select
+        customer_state,
+        product_category_name,
+        category_revenue,
+        rank() over (
+            partition by customer_state
+            order by category_revenue desc
+        ) as category_rank
+    from state_category_revenue
+)
 select
-	count(*) as total_orders,
-	c.customer_state
-from orders o
-join customers c
-	on o.customer_id = c.customer_id
-group by c.customer_state
-order by total_orders desc;
+    customer_state,
+    product_category_name,
+    category_revenue,
+    category_rank
+from ranked_categories
+where category_rank = 1
+order by category_revenue desc;
 
 -- 5. Delivered Orders by State
 select 
