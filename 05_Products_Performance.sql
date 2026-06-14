@@ -24,13 +24,16 @@ join products_clean p
 group by p.product_category_name
 order by total_sales desc;
 
--- 3. Average Sold Price by Product
-select
+-- 3.Products Where Average Shipping Charge Exceeds Average Item Price
+select 
 	product_id,
-	round(avg(price), 2) as avg_price
+	round(avg(price),2) as avg_item_price,
+	round(avg(shipping_charges),2) as avg_shipping_charge,
+	count(*) as total_items
 from orderitems
 group by product_id
-order by avg_price desc;
+having avg(shipping_charges) > avg(price)
+and count(*) >= 5;
 
 -- 4. Top 10 Products by Revenue
 select 
